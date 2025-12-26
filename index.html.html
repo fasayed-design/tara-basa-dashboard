@@ -1,0 +1,1851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tara Basa Tutoring Program 2026 - DSWD Quezon Province</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1em;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            background: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #667eea;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .stat-card .value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+        }
+
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .table-container {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background: #f8f9fa;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .school-badge {
+            display: inline-block;
+            background: #e8f4f8;
+            color: #667eea;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .municipality-section {
+            margin-bottom: 30px;
+        }
+
+        .municipality-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .school-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            padding: 0 10px;
+        }
+
+        .school-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .school-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .school-card h4 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .school-card p {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Tara Basa Tutoring Program 2026</h1>
+            <p>DSWD Quezon Province | May 4 - May 29, 2026 (20 Sessions)</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('dashboard')">📊 Dashboard</button>
+            <button class="nav-tab" onclick="showTab('tutors')">👨‍🏫 Tutors</button>
+            <button class="nav-tab" onclick="showTab('ydw')">🤝 YDW</button>
+            <button class="nav-tab" onclick="showTab('parents')">👪 Parents</button>
+            <button class="nav-tab" onclick="showTab('learners')">📚 Learners</button>
+            <button class="nav-tab" onclick="showTab('attendance')">✅ Attendance</button>
+            <button class="nav-tab" onclick="showTab('payroll')">💰 Payroll</button>
+            <button class="nav-tab" onclick="showTab('reports')">📋 Reports</button>
+            <button class="nav-tab" onclick="showTab('geography')">🗺️ Geography</button>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="export-buttons">
+                <button class="btn btn-success" onclick="exportToExcel()">📥 Export All Data to Excel</button>
+                <button class="btn btn-warning" onclick="generateReport()">📄 Generate Summary Report</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Learners</h3>
+                    <div class="value" id="totalLearners">0</div>
+                    <div class="label">Target: 3,205</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Tutors</h3>
+                    <div class="value" id="totalTutors">0</div>
+                    <div class="label">Target: 641</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Youth Development Workers</h3>
+                    <div class="value" id="totalYDW">0</div>
+                    <div class="label">Target: 321</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Participating Parents</h3>
+                    <div class="value" id="totalParents">0</div>
+                    <div class="label">Target: 3,205</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Participating Schools</h3>
+                    <div class="value" id="totalSchools">0</div>
+                    <div class="label">Target: 222</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Program Completion</h3>
+                    <div class="value" id="completionRate">0%</div>
+                    <div class="label">Sessions Completed</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">Session Progress Overview</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="sessionProgress" style="width: 0%">0 / 20 Sessions</div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="chart-container">
+                    <h3 style="margin-bottom: 15px; color: #2c3e50;">Attendance Overview</h3>
+                    <canvas id="attendanceChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3 style="margin-bottom: 15px; color: #2c3e50;">Payroll Distribution</h3>
+                    <canvas id="payrollChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tutors Tab -->
+        <div id="tutors" class="tab-content">
+            <div class="form-container">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">Add New Tutor</h2>
+                <form id="tutorForm">
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" id="tutorName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>University *</label>
+                            <input type="text" id="tutorUniversity" required>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Course/Program *</label>
+                            <input type="text" id="tutorCourse" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Number *</label>
+                            <input type="tel" id="tutorContact" required>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Assigned School *</label>
+                            <input type="text" id="tutorSchool" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Municipality *</label>
+                            <input type="text" id="tutorMunicipality" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Profile Photo URL</label>
+                        <input type="url" id="tutorPhoto" placeholder="https://example.com/photo.jpg">
+                    </div>
+                    <button type="submit" class="btn">Add Tutor</button>
+                </form>
+            </div>
+
+            <div class="table-container">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">Registered Tutors (<span id="tutorCount">0</span>)</h2>
+                <button class="btn btn-success" onclick="exportTutorsToExcel()">📥 Export Tutors to Excel</button>
+                <table id="tutorsTable">
+                    <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>Name</th>
+                            <th>University</th>
+                            <th>Course</th>
+                            <th>School</th>
+                            <th>Municipality</th>
+                            <th>Contact</th>
+                            <th>Sessions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tutorsTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- YDW Tab -->
+        <div id="ydw" class="tab-content">
+            <div class="form-container">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">Add Youth Development Worker</h2>
+                <form id="ydwForm">
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" id="ydwName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>University/Background *</label>
+                            <input type="text" id="ydwUniversity" required>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Specialization *</label>
+                            <input type="text" id="ydwSpecialization" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Contact Number *</label>
+                            <input type="tel" id="ydwContact" required>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Assigned School/Area *</label>
+                            <input type="text" id="ydwSchool" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Municipality *</label>
+                            <input type="text" id="ydwMunicipality" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Profile Photo URL</label>
+                        <input type="url" id="ydwPhoto" placeholder="https://example.com/photo.jpg">
+                    </div>
+                    <button type="submit" class="btn">Add YDW</button>
+                </form>
+            </div>
+
+            <div class="table-container">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">Registered Youth Development Workers (<span id="ydwCount">0</span>)</h2>
+                <button class="btn btn-success" onclick="exportYDWToExcel()">📥 Export YDW to Excel</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>Name</th>
+                            <th>Background</th>
+                            <th>Specialization</th>
+                            <th>Area</th>
+                            <th>Municipality</th>
+                            <th>Contact</th>
+                            <th>Sessions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ydwTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Parents Tab -->
+        <div id="parents" class="tab-content">
+            <div class="form-container">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">Add Parent</h2>
+                <form id="parentForm">
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" id="parentName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Learner's Name *</label>
+                            <input type="text" id="parentLearner" required>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Contact Number *</label>
+                            <input type="tel" id="parentContact" required>
+                        </div>
+                        <div class="form-group">
+                            <label>School *</label>
+                            <input type="text" id="parentSchool" required>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Municipality *</label>
+                            <input type="text" id="parentMunicipality" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Barangay</label>
+                            <input type="text" id="parentBarangay">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <textarea id="parentAddress" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Add Parent</button>
+                </form>
+            </div>
+
+            <div class="table-container">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">Registered Parents (<span id="parentCount">0</span>)</h2>
+                <button class="btn btn-success" onclick="exportParentsToExcel()">📥 Export Parents to Excel</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parent Name</th>
+                            <th>Learner Name</th>
+                            <th>School</th>
+                            <th>Municipality</th>
+                            <th>Contact</th>
+                            <th>Sessions</th>
+                            <th>Expected Payout</th>
+                        </tr>
+                    </thead>
+                    <tbody id="parentsTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Learners Tab -->
+        <div id="learners" class="tab-content">
+            <div class="form-container">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">Add Learner</h2>
+                <form id="learnerForm">
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Learner's Full Name *</label>
+                            <input type="text" id="learnerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Parent/Guardian Name *</label>
+                            <input type="text" id="learnerParent" required>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>School *</label>
+                            <input type="text" id="learnerSchool" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Municipality *</label>
+                            <input type="text" id="learnerMunicipality" required>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Assigned Tutor</label>
+                            <input type="text" id="learnerTutor">
+                        </div>
+                        <div class="form-group">
+                            <label>Reading Level (Pre-assessment)</label>
+                            <select id="learnerLevel">
+                                <option value="">Select Level</option>
+                                <option value="Non-reader">Non-reader</option>
+                                <option value="Beginner">Beginner</option>
+                                <option value="Frustrated">Frustrated Reader</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn">Add Learner</button>
+                </form>
+            </div>
+
+            <div class="table-container">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">Registered Learners (<span id="learnerCount">0</span>)</h2>
+                <button class="btn btn-success" onclick="exportLearnersToExcel()">📥 Export Learners to Excel</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Learner Name</th>
+                            <th>Parent/Guardian</th>
+                            <th>School</th>
+                            <th>Municipality</th>
+                            <th>Tutor</th>
+                            <th>Pre-Level</th>
+                            <th>Sessions</th>
+                            <th>Attendance %</th>
+                        </tr>
+                    </thead>
+                    <tbody id="learnersTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Attendance Tab -->
+        <div id="attendance" class="tab-content">
+            <div class="form-container">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">Record Daily Attendance</h2>
+                <div class="form-group">
+                    <label>Session Date *</label>
+                    <input type="date" id="attendanceDate" min="2026-05-04" max="2026-05-29" required>
+                </div>
+                <div class="form-group">
+                    <label>Session Number (1-20) *</label>
+                    <input type="number" id="sessionNumber" min="1" max="20" value="1" required>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Tutors Present</label>
+                        <input type="number" id="tutorsPresent" min="0" max="641" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>YDW Present</label>
+                        <input type="number" id="ydwPresent" min="0" max="321" value="0">
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Learners Present</label>
+                        <input type="number" id="learnersPresent" min="0" max="3205" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Parents Present</label>
+                        <input type="number" id="parentsPresent" min="0" max="3205" value="0">
+                    </div>
+                </div>
+                <button class="btn" onclick="recordAttendance()">Record Attendance</button>
+            </div>
+
+            <div class="table-container">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">Attendance Records</h2>
+                <button class="btn btn-success" onclick="exportAttendanceToExcel()">📥 Export Attendance to Excel</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Session #</th>
+                            <th>Date</th>
+                            <th>Tutors</th>
+                            <th>YDW</th>
+                            <th>Learners</th>
+                            <th>Parents</th>
+                            <th>Overall %</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendanceTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Payroll Tab -->
+        <div id="payroll" class="tab-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Program Budget</h3>
+                    <div class="value" id="totalBudget">₱0</div>
+                    <div class="label">20 Sessions Complete</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Tutors Payroll</h3>
+                    <div class="value" id="tutorPayroll">₱0</div>
+                    <div class="label">₱600 per session</div>
+                </div>
+                <div class="stat-card">
+                    <h3>YDW Payroll</h3>
+                    <div class="value" id="ydwPayroll">₱0</div>
+                    <div class="label">₱600 per session</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Parents Payroll</h3>
+                    <div class="value" id="parentPayroll">₱0</div>
+                    <div class="label">₱462 per session</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">Payroll Breakdown</h2>
+                <canvas id="payrollBreakdownChart"></canvas>
+            </div>
+
+            <div class="table-container">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">Projected vs Actual Payroll</h2>
+                <button class="btn btn-success" onclick="exportPayrollToExcel()">📥 Export Payroll to Excel</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Count</th>
+                            <th>Rate/Session</th>
+                            <th>Projected (20 sessions)</th>
+                            <th>Actual Attendance</th>
+                            <th>Actual Payout</th>
+                            <th>Difference</th>
+                        </tr>
+                    </thead>
+                    <tbody id="payrollTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Reports Tab -->
+        <div id="reports" class="tab-content">
+            <div class="form-container">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">Generate Custom Report</h2>
+                <div class="export-buttons">
+                    <button class="btn btn-success" onclick="generateFullReport()">📄 Full Program Report</button>
+                    <button class="btn" onclick="generateAttendanceReport()">📊 Attendance Report</button>
+                    <button class="btn" onclick="generatePayrollReport()">💰 Payroll Report</button>
+                    <button class="btn btn-warning" onclick="generateProgressReport()">📈 Progress Report</button>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">Session-by-Session Analysis</h2>
+                <canvas id="sessionAnalysisChart"></canvas>
+            </div>
+
+            <div class="grid-2">
+                <div class="chart-container">
+                    <h3 style="margin-bottom: 15px; color: #2c3e50;">Enrollment vs Target</h3>
+                    <canvas id="enrollmentChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3 style="margin-bottom: 15px; color: #2c3e50;">Average Attendance Rates</h3>
+                    <canvas id="avgAttendanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Geography Tab -->
+        <div id="geography" class="tab-content">
+            <div class="alert alert-info">
+                <strong>Geographic Distribution:</strong> This section shows the distribution of participants across municipalities in Quezon Province.
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Municipalities Covered</h3>
+                    <div class="value" id="totalMunicipalities">0</div>
+                    <div class="label">Across Quezon Province</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Schools Registered</h3>
+                    <div class="value" id="geoSchools">0</div>
+                    <div class="label">Public Elementary Schools</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Participants</h3>
+                    <div class="value" id="geoParticipants">0</div>
+                    <div class="label">All Categories</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Average per Municipality</h3>
+                    <div class="value" id="avgPerMunicipality">0</div>
+                    <div class="label">Participants</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">Distribution by Municipality</h2>
+                <canvas id="municipalityChart"></canvas>
+            </div>
+
+            <div class="table-container">
+                <h2 style="margin-bottom: 20px; color: #2c3e50;">Municipality Breakdown</h2>
+                <button class="btn btn-success" onclick="exportGeographyToExcel()">📥 Export Geography Data</button>
+                <div id="municipalityList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let data = {
+            tutors: [],
+            ydw: [],
+            parents: [],
+            learners: [],
+            attendance: []
+        };
+
+        let charts = {
+            attendance: null,
+            payroll: null,
+            payrollBreakdown: null,
+            sessionAnalysis: null,
+            enrollment: null,
+            avgAttendance: null,
+            municipality: null
+        };
+
+        async function loadData() {
+            try {
+                const stored = await window.storage.get('taraBasa2026');
+                if (stored && stored.value) {
+                    data = JSON.parse(stored.value);
+                    updateAllDisplays();
+                }
+            } catch (error) {
+                console.log('Starting with fresh data');
+            }
+        }
+
+        async function saveData() {
+            try {
+                await window.storage.set('taraBasa2026', JSON.stringify(data));
+            } catch (error) {
+                console.error('Error saving:', error);
+            }
+        }
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        document.getElementById('tutorForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const tutor = {
+                id: Date.now(),
+                name: document.getElementById('tutorName').value,
+                university: document.getElementById('tutorUniversity').value,
+                course: document.getElementById('tutorCourse').value,
+                contact: document.getElementById('tutorContact').value,
+                school: document.getElementById('tutorSchool').value,
+                municipality: document.getElementById('tutorMunicipality').value,
+                photo: document.getElementById('tutorPhoto').value || 'https://via.placeholder.com/50',
+                sessionsAttended: 0
+            };
+            data.tutors.push(tutor);
+            await saveData();
+            this.reset();
+            updateTutorsTable();
+            updateStats();
+            alert('Tutor added successfully!');
+        });
+
+        document.getElementById('ydwForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const ydw = {
+                id: Date.now(),
+                name: document.getElementById('ydwName').value,
+                university: document.getElementById('ydwUniversity').value,
+                specialization: document.getElementById('ydwSpecialization').value,
+                contact: document.getElementById('ydwContact').value,
+                school: document.getElementById('ydwSchool').value,
+                municipality: document.getElementById('ydwMunicipality').value,
+                photo: document.getElementById('ydwPhoto').value || 'https://via.placeholder.com/50',
+                sessionsAttended: 0
+            };
+            data.ydw.push(ydw);
+            await saveData();
+            this.reset();
+            updateYDWTable();
+            updateStats();
+            alert('YDW added successfully!');
+        });
+
+        document.getElementById('parentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const parent = {
+                id: Date.now(),
+                name: document.getElementById('parentName').value,
+                learner: document.getElementById('parentLearner').value,
+                contact: document.getElementById('parentContact').value,
+                school: document.getElementById('parentSchool').value,
+                municipality: document.getElementById('parentMunicipality').value,
+                barangay: document.getElementById('parentBarangay').value,
+                address: document.getElementById('parentAddress').value,
+                sessionsAttended: 0
+            };
+            data.parents.push(parent);
+            await saveData();
+            this.reset();
+            updateParentsTable();
+            updateStats();
+            alert('Parent added successfully!');
+        });
+
+        document.getElementById('learnerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const learner = {
+                id: Date.now(),
+                name: document.getElementById('learnerName').value,
+                parent: document.getElementById('learnerParent').value,
+                school: document.getElementById('learnerSchool').value,
+                municipality: document.getElementById('learnerMunicipality').value,
+                tutor: document.getElementById('learnerTutor').value,
+                level: document.getElementById('learnerLevel').value,
+                sessionsAttended: 0
+            };
+            data.learners.push(learner);
+            await saveData();
+            this.reset();
+            updateLearnersTable();
+            updateStats();
+            alert('Learner added successfully!');
+        });
+
+        async function recordAttendance() {
+            const session = parseInt(document.getElementById('sessionNumber').value);
+            const date = document.getElementById('attendanceDate').value;
+            const tutorsP = parseInt(document.getElementById('tutorsPresent').value) || 0;
+            const ydwP = parseInt(document.getElementById('ydwPresent').value) || 0;
+            const learnersP = parseInt(document.getElementById('learnersPresent').value) || 0;
+            const parentsP = parseInt(document.getElementById('parentsPresent').value) || 0;
+
+            if (!date || !session) {
+                alert('Please fill in session date and number');
+                return;
+            }
+
+            const attendance = {
+                session: session,
+                date: date,
+                tutorsPresent: tutorsP,
+                ydwPresent: ydwP,
+                learnersPresent: learnersP,
+                parentsPresent: parentsP
+            };
+            
+            data.attendance.push(attendance);
+            await saveData();
+            updateAttendanceTable();
+            updateCharts();
+            updateStats();
+            
+            document.getElementById('tutorsPresent').value = '';
+            document.getElementById('ydwPresent').value = '';
+            document.getElementById('learnersPresent').value = '';
+            document.getElementById('parentsPresent').value = '';
+            
+            alert('Attendance recorded successfully!');
+        }
+
+        function updateTutorsTable() {
+            const tbody = document.getElementById('tutorsTableBody');
+            tbody.innerHTML = data.tutors.map(t => `
+                <tr>
+                    <td><img src="${t.photo}" class="profile-pic" onerror="this.src='https://via.placeholder.com/50'"></td>
+                    <td>${t.name}</td>
+                    <td>${t.university}</td>
+                    <td>${t.course}</td>
+                    <td><span class="school-badge">${t.school}</span></td>
+                    <td>${t.municipality}</td>
+                    <td>${t.contact}</td>
+                    <td>${t.sessionsAttended} / 20</td>
+                </tr>
+            `).join('');
+            document.getElementById('tutorCount').textContent = data.tutors.length;
+        }
+
+        function updateYDWTable() {
+            const tbody = document.getElementById('ydwTableBody');
+            tbody.innerHTML = data.ydw.map(y => `
+                <tr>
+                    <td><img src="${y.photo}" class="profile-pic" onerror="this.src='https://via.placeholder.com/50'"></td>
+                    <td>${y.name}</td>
+                    <td>${y.university}</td>
+                    <td>${y.specialization}</td>
+                    <td><span class="school-badge">${y.school}</span></td>
+                    <td>${y.municipality}</td>
+                    <td>${y.contact}</td>
+                    <td>${y.sessionsAttended} / 20</td>
+                </tr>
+            `).join('');
+            document.getElementById('ydwCount').textContent = data.ydw.length;
+        }
+
+        function updateParentsTable() {
+            const tbody = document.getElementById('parentsTableBody');
+            tbody.innerHTML = data.parents.map(p => {
+                const payout = p.sessionsAttended * 462;
+                return `
+                <tr>
+                    <td>${p.name}</td>
+                    <td>${p.learner}</td>
+                    <td><span class="school-badge">${p.school}</span></td>
+                    <td>${p.municipality}</td>
+                    <td>${p.contact}</td>
+                    <td>${p.sessionsAttended} / 20</td>
+                    <td>₱${payout.toLocaleString()}</td>
+                </tr>
+            `;
+            }).join('');
+            document.getElementById('parentCount').textContent = data.parents.length;
+        }
+
+        function updateLearnersTable() {
+            const tbody = document.getElementById('learnersTableBody');
+            tbody.innerHTML = data.learners.map(l => {
+                const attendanceRate = l.sessionsAttended > 0 ? ((l.sessionsAttended / 20) * 100).toFixed(1) : 0;
+                return `
+                <tr>
+                    <td>${l.name}</td>
+                    <td>${l.parent}</td>
+                    <td><span class="school-badge">${l.school}</span></td>
+                    <td>${l.municipality}</td>
+                    <td>${l.tutor || 'Not assigned'}</td>
+                    <td>${l.level || 'N/A'}</td>
+                    <td>${l.sessionsAttended} / 20</td>
+                    <td>${attendanceRate}%</td>
+                </tr>
+            `;
+            }).join('');
+            document.getElementById('learnerCount').textContent = data.learners.length;
+        }
+
+        function updateAttendanceTable() {
+            const tbody = document.getElementById('attendanceTableBody');
+            tbody.innerHTML = data.attendance.map(a => {
+                const total = a.tutorsPresent + a.ydwPresent + a.learnersPresent + a.parentsPresent;
+                const max = 641 + 321 + 3205 + 3205;
+                const rate = ((total / max) * 100).toFixed(1);
+                return `
+                <tr>
+                    <td>${a.session}</td>
+                    <td>${a.date}</td>
+                    <td>${a.tutorsPresent} / 641</td>
+                    <td>${a.ydwPresent} / 321</td>
+                    <td>${a.learnersPresent} / 3,205</td>
+                    <td>${a.parentsPresent} / 3,205</td>
+                    <td>${rate}%</td>
+                </tr>
+            `;
+            }).join('');
+        }
+
+        function updateStats() {
+            document.getElementById('totalLearners').textContent = data.learners.length.toLocaleString();
+            document.getElementById('totalTutors').textContent = data.tutors.length.toLocaleString();
+            document.getElementById('totalYDW').textContent = data.ydw.length.toLocaleString();
+            document.getElementById('totalParents').textContent = data.parents.length.toLocaleString();
+            
+            const uniqueSchools = new Set([
+                ...data.tutors.map(t => t.school),
+                ...data.ydw.map(y => y.school),
+                ...data.parents.map(p => p.school),
+                ...data.learners.map(l => l.school)
+            ]);
+            document.getElementById('totalSchools').textContent = uniqueSchools.size;
+            
+            const sessionsCompleted = data.attendance.length;
+            const completionRate = ((sessionsCompleted / 20) * 100).toFixed(0);
+            document.getElementById('completionRate').textContent = completionRate + '%';
+            
+            const progressBar = document.getElementById('sessionProgress');
+            progressBar.style.width = completionRate + '%';
+            progressBar.textContent = `${sessionsCompleted} / 20 Sessions`;
+            
+            updatePayrollStats();
+            updateGeographyStats();
+        }
+
+        function updatePayrollStats() {
+            const totalTutorAttendance = data.attendance.reduce((sum, a) => sum + a.tutorsPresent, 0);
+            const totalYDWAttendance = data.attendance.reduce((sum, a) => sum + a.ydwPresent, 0);
+            const totalParentAttendance = data.attendance.reduce((sum, a) => sum + a.parentsPresent, 0);
+            
+            const tutorPay = totalTutorAttendance * 600;
+            const ydwPay = totalYDWAttendance * 600;
+            const parentPay = totalParentAttendance * 462;
+            const totalBudget = tutorPay + ydwPay + parentPay;
+            
+            document.getElementById('totalBudget').textContent = '₱' + totalBudget.toLocaleString();
+            document.getElementById('tutorPayroll').textContent = '₱' + tutorPay.toLocaleString();
+            document.getElementById('ydwPayroll').textContent = '₱' + ydwPay.toLocaleString();
+            document.getElementById('parentPayroll').textContent = '₱' + parentPay.toLocaleString();
+            
+            updatePayrollTable();
+        }
+
+        function updatePayrollTable() {
+            const tbody = document.getElementById('payrollTableBody');
+            const totalSessions = data.attendance.length;
+            
+            const tutorAttendance = data.attendance.reduce((sum, a) => sum + a.tutorsPresent, 0);
+            const ydwAttendance = data.attendance.reduce((sum, a) => sum + a.ydwPresent, 0);
+            const parentAttendance = data.attendance.reduce((sum, a) => sum + a.parentsPresent, 0);
+            
+            const rows = [
+                {
+                    category: 'Tutors',
+                    count: 641,
+                    rate: 600,
+                    projected: 641 * 600 * 20,
+                    actual: tutorAttendance,
+                    payout: tutorAttendance * 600
+                },
+                {
+                    category: 'YDW',
+                    count: 321,
+                    rate: 600,
+                    projected: 321 * 600 * 20,
+                    actual: ydwAttendance,
+                    payout: ydwAttendance * 600
+                },
+                {
+                    category: 'Parents',
+                    count: 3205,
+                    rate: 462,
+                    projected: 3205 * 462 * 20,
+                    actual: parentAttendance,
+                    payout: parentAttendance * 462
+                }
+            ];
+            
+            tbody.innerHTML = rows.map(r => {
+                const diff = r.projected - r.payout;
+                return `
+                <tr>
+                    <td><strong>${r.category}</strong></td>
+                    <td>${r.count.toLocaleString()}</td>
+                    <td>₱${r.rate.toLocaleString()}</td>
+                    <td>₱${r.projected.toLocaleString()}</td>
+                    <td>${r.actual.toLocaleString()}</td>
+                    <td>₱${r.payout.toLocaleString()}</td>
+                    <td>₱${diff.toLocaleString()}</td>
+                </tr>
+            `;
+            }).join('');
+        }
+
+        function updateGeographyStats() {
+            const municipalities = new Set([
+                ...data.tutors.map(t => t.municipality),
+                ...data.ydw.map(y => y.municipality),
+                ...data.parents.map(p => p.municipality),
+                ...data.learners.map(l => l.municipality)
+            ].filter(m => m));
+            
+            const totalParticipants = data.tutors.length + data.ydw.length + data.parents.length + data.learners.length;
+            const avgPerMunicipality = municipalities.size > 0 ? Math.round(totalParticipants / municipalities.size) : 0;
+            
+            document.getElementById('totalMunicipalities').textContent = municipalities.size;
+            document.getElementById('geoSchools').textContent = document.getElementById('totalSchools').textContent;
+            document.getElementById('geoParticipants').textContent = totalParticipants.toLocaleString();
+            document.getElementById('avgPerMunicipality').textContent = avgPerMunicipality.toLocaleString();
+            
+            updateMunicipalityList();
+        }
+
+        function updateMunicipalityList() {
+            const municipalityData = {};
+            
+            [...data.tutors, ...data.ydw, ...data.parents, ...data.learners].forEach(person => {
+                const muni = person.municipality || 'Unknown';
+                if (!municipalityData[muni]) {
+                    municipalityData[muni] = {
+                        tutors: 0,
+                        ydw: 0,
+                        parents: 0,
+                        learners: 0,
+                        schools: new Set()
+                    };
+                }
+                
+                if (data.tutors.includes(person)) municipalityData[muni].tutors++;
+                else if (data.ydw.includes(person)) municipalityData[muni].ydw++;
+                else if (data.parents.includes(person)) municipalityData[muni].parents++;
+                else if (data.learners.includes(person)) municipalityData[muni].learners++;
+                
+                if (person.school) municipalityData[muni].schools.add(person.school);
+            });
+            
+            const container = document.getElementById('municipalityList');
+            container.innerHTML = Object.entries(municipalityData).sort((a, b) => 
+                (b[1].tutors + b[1].ydw + b[1].parents + b[1].learners) - 
+                (a[1].tutors + a[1].ydw + a[1].parents + a[1].learners)
+            ).map(([muni, data]) => {
+                const total = data.tutors + data.ydw + data.parents + data.learners;
+                return `
+                    <div class="municipality-section">
+                        <div class="municipality-header">
+                            ${muni} - ${total} Participants | ${data.schools.size} Schools
+                        </div>
+                        <div class="school-list">
+                            <div class="school-card">
+                                <h4>👨‍🏫 Tutors</h4>
+                                <p>${data.tutors} registered</p>
+                            </div>
+                            <div class="school-card">
+                                <h4>🤝 YDW</h4>
+                                <p>${data.ydw} registered</p>
+                            </div>
+                            <div class="school-card">
+                                <h4>👪 Parents</h4>
+                                <p>${data.parents} registered</p>
+                            </div>
+                            <div class="school-card">
+                                <h4>📚 Learners</h4>
+                                <p>${data.learners} registered</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateCharts() {
+            updateAttendanceChart();
+            updatePayrollPieChart();
+            updatePayrollBreakdownChart();
+            updateSessionAnalysisChart();
+            updateEnrollmentChart();
+            updateAvgAttendanceChart();
+            updateMunicipalityChart();
+        }
+
+        function updateAttendanceChart() {
+            const ctx = document.getElementById('attendanceChart');
+            if (!ctx) return;
+            
+            if (charts.attendance) charts.attendance.destroy();
+            
+            const labels = data.attendance.map(a => `Session ${a.session}`);
+            
+            charts.attendance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Tutors',
+                            data: data.attendance.map(a => a.tutorsPresent),
+                            borderColor: '#667eea',
+                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'YDW',
+                            data: data.attendance.map(a => a.ydwPresent),
+                            borderColor: '#764ba2',
+                            backgroundColor: 'rgba(118, 75, 162, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Learners',
+                            data: data.attendance.map(a => a.learnersPresent),
+                            borderColor: '#38ef7d',
+                            backgroundColor: 'rgba(56, 239, 125, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Parents',
+                            data: data.attendance.map(a => a.parentsPresent),
+                            borderColor: '#f5576c',
+                            backgroundColor: 'rgba(245, 87, 108, 0.1)',
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function updatePayrollPieChart() {
+            const ctx = document.getElementById('payrollChart');
+            if (!ctx) return;
+            
+            if (charts.payroll) charts.payroll.destroy();
+            
+            const tutorPay = data.attendance.reduce((sum, a) => sum + a.tutorsPresent, 0) * 600;
+            const ydwPay = data.attendance.reduce((sum, a) => sum + a.ydwPresent, 0) * 600;
+            const parentPay = data.attendance.reduce((sum, a) => sum + a.parentsPresent, 0) * 462;
+            
+            charts.payroll = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Tutors', 'YDW', 'Parents'],
+                    datasets: [{
+                        data: [tutorPay, ydwPay, parentPay],
+                        backgroundColor: ['#667eea', '#764ba2', '#f5576c']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        function updatePayrollBreakdownChart() {
+            const ctx = document.getElementById('payrollBreakdownChart');
+            if (!ctx) return;
+            
+            if (charts.payrollBreakdown) charts.payrollBreakdown.destroy();
+            
+            const tutorProjected = 641 * 600 * 20;
+            const ydwProjected = 321 * 600 * 20;
+            const parentProjected = 3205 * 462 * 20;
+            
+            const tutorActual = data.attendance.reduce((sum, a) => sum + a.tutorsPresent, 0) * 600;
+            const ydwActual = data.attendance.reduce((sum, a) => sum + a.ydwPresent, 0) * 600;
+            const parentActual = data.attendance.reduce((sum, a) => sum + a.parentsPresent, 0) * 462;
+            
+            charts.payrollBreakdown = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Tutors', 'YDW', 'Parents'],
+                    datasets: [
+                        {
+                            label: 'Projected Budget',
+                            data: [tutorProjected, ydwProjected, parentProjected],
+                            backgroundColor: 'rgba(102, 126, 234, 0.5)',
+                            borderColor: '#667eea',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Actual Payout',
+                            data: [tutorActual, ydwActual, parentActual],
+                            backgroundColor: 'rgba(56, 239, 125, 0.5)',
+                            borderColor: '#38ef7d',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '₱' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateSessionAnalysisChart() {
+            const ctx = document.getElementById('sessionAnalysisChart');
+            if (!ctx) return;
+            
+            if (charts.sessionAnalysis) charts.sessionAnalysis.destroy();
+            
+            const labels = data.attendance.map(a => `Session ${a.session}`);
+            const overallAttendance = data.attendance.map(a => {
+                const total = a.tutorsPresent + a.ydwPresent + a.learnersPresent + a.parentsPresent;
+                const max = 641 + 321 + 3205 + 3205;
+                return ((total / max) * 100).toFixed(1);
+            });
+            
+            charts.sessionAnalysis = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Overall Attendance Rate (%)',
+                        data: overallAttendance,
+                        backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                        borderColor: '#667eea',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateEnrollmentChart() {
+            const ctx = document.getElementById('enrollmentChart');
+            if (!ctx) return;
+            
+            if (charts.enrollment) charts.enrollment.destroy();
+            
+            charts.enrollment = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Tutors', 'YDW', 'Learners', 'Parents'],
+                    datasets: [
+                        {
+                            label: 'Target',
+                            data: [641, 321, 3205, 3205],
+                            backgroundColor: 'rgba(128, 128, 128, 0.3)',
+                            borderColor: '#808080',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Enrolled',
+                            data: [data.tutors.length, data.ydw.length, data.learners.length, data.parents.length],
+                            backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                            borderColor: '#667eea',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateAvgAttendanceChart() {
+            const ctx = document.getElementById('avgAttendanceChart');
+            if (!ctx) return;
+            
+            if (charts.avgAttendance) charts.avgAttendance.destroy();
+            
+            const tutorAvg = data.attendance.length > 0 ? 
+                (data.attendance.reduce((sum, a) => sum + a.tutorsPresent, 0) / data.attendance.length / 641 * 100).toFixed(1) : 0;
+            const ydwAvg = data.attendance.length > 0 ? 
+                (data.attendance.reduce((sum, a) => sum + a.ydwPresent, 0) / data.attendance.length / 321 * 100).toFixed(1) : 0;
+            const learnerAvg = data.attendance.length > 0 ? 
+                (data.attendance.reduce((sum, a) => sum + a.learnersPresent, 0) / data.attendance.length / 3205 * 100).toFixed(1) : 0;
+            const parentAvg = data.attendance.length > 0 ? 
+                (data.attendance.reduce((sum, a) => sum + a.parentsPresent, 0) / data.attendance.length / 3205 * 100).toFixed(1) : 0;
+            
+            charts.avgAttendance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Tutors', 'YDW', 'Learners', 'Parents'],
+                    datasets: [{
+                        label: 'Average Attendance Rate',
+                        data: [tutorAvg, ydwAvg, learnerAvg, parentAvg],
+                        backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                        borderColor: '#667eea',
+                        pointBackgroundColor: '#667eea',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#667eea'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateMunicipalityChart() {
+            const ctx = document.getElementById('municipalityChart');
+            if (!ctx) return;
+            
+            if (charts.municipality) charts.municipality.destroy();
+            
+            const municipalityData = {};
+            [...data.tutors, ...data.ydw, ...data.parents, ...data.learners].forEach(person => {
+                const muni = person.municipality || 'Unknown';
+                municipalityData[muni] = (municipalityData[muni] || 0) + 1;
+            });
+            
+            const sorted = Object.entries(municipalityData).sort((a, b) => b[1] - a[1]);
+            
+            charts.municipality = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: sorted.map(([muni]) => muni),
+                    datasets: [{
+                        label: 'Total Participants',
+                        data: sorted.map(([, count]) => count),
+                        backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                        borderColor: '#667eea',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateAllDisplays() {
+            updateTutorsTable();
+            updateYDWTable();
+            updateParentsTable();
+            updateLearnersTable();
+            updateAttendanceTable();
+            updateStats();
+            updateCharts();
+        }
+
+        // Export Functions
+        function exportToExcel() {
+            const csvContent = generateCSV();
+            downloadCSV(csvContent, 'TaraBasa_AllData_' + new Date().toISOString().split('T')[0] + '.csv');
+            alert('Exporting all data to Excel-compatible CSV format!');
+        }
+
+        function exportTutorsToExcel() {
+            const csv = 'Name,University,Course,School,Municipality,Contact,Sessions Attended\n' +
+                data.tutors.map(t => 
+                    `"${t.name}","${t.university}","${t.course}","${t.school}","${t.municipality}","${t.contact}",${t.sessionsAttended}`
+                ).join('\n');
+            downloadCSV(csv, 'TaraBasa_Tutors.csv');
+        }
+
+        function exportYDWToExcel() {
+            const csv = 'Name,Background,Specialization,School,Municipality,Contact,Sessions Attended\n' +
+                data.ydw.map(y => 
+                    `"${y.name}","${y.university}","${y.specialization}","${y.school}","${y.municipality}","${y.contact}",${y.sessionsAttended}`
+                ).join('\n');
+            downloadCSV(csv, 'TaraBasa_YDW.csv');
+        }
+
+        function exportParentsToExcel() {
+            const csv = 'Parent Name,Learner Name,School,Municipality,Contact,Sessions,Payout\n' +
+                data.parents.map(p => {
+                    const payout = p.sessionsAttended * 462;
+                    return `"${p.name}","${p.learner}","${p.school}","${p.municipality}","${p.contact}",${p.sessionsAttended},${payout}`;
+                }).join('\n');
+            downloadCSV(csv, 'TaraBasa_Parents.csv');
+        }
+
+        function exportLearnersToExcel() {
+            const csv = 'Learner Name,Parent,School,Municipality,Tutor,Pre-Level,Sessions,Attendance %\n' +
+                data.learners.map(l => {
+                    const rate = l.sessionsAttended > 0 ? ((l.sessionsAttended / 20) * 100).toFixed(1) : 0;
+                    return `"${l.name}","${l.parent}","${l.school}","${l.municipality}","${l.tutor || 'N/A'}","${l.level || 'N/A'}",${l.sessionsAttended},${rate}`;
+                }).join('\n');
+            downloadCSV(csv, 'TaraBasa_Learners.csv');
+        }
+
+        function exportAttendanceToExcel() {
+            const csv = 'Session,Date,Tutors Present,YDW Present,Learners Present,Parents Present,Overall Rate\n' +
+                data.attendance.map(a => {
+                    const total = a.tutorsPresent + a.ydwPresent + a.learnersPresent + a.parentsPresent;
+                    const max = 641 + 321 + 3205 + 3205;
+                    const rate = ((total / max) * 100).toFixed(1);
+                    return `${a.session},${a.date},${a.tutorsPresent},${a.ydwPresent},${a.learnersPresent},${a.parentsPresent},${rate}`;
+                }).join('\n');
+            downloadCSV(csv, 'TaraBasa_Attendance.csv');
+        }
+
+        function exportPayrollToExcel() {
+            const csv = 'Category,Count,Rate per Session,Projected (20 sessions),Actual Attendance,Actual Payout,Difference\n';
+            const tutorAtt = data.attendance.reduce((sum, a) => sum + a.tutorsPresent, 0);
+            const ydwAtt = data.attendance.reduce((sum, a) => sum + a.ydwPresent, 0);
+            const parentAtt = data.attendance.reduce((sum, a) => sum + a.parentsPresent, 0);
+            
+            const rows = [
+                ['Tutors', 641, 600, 641*600*20, tutorAtt, tutorAtt*600, (641*600*20)-(tutorAtt*600)],
+                ['YDW', 321, 600, 321*600*20, ydwAtt, ydwAtt*600, (321*600*20)-(ydwAtt*600)],
+                ['Parents', 3205, 462, 3205*462*20, parentAtt, parentAtt*462, (3205*462*20)-(parentAtt*462)]
+            ];
+            
+            const content = csv + rows.map(r => r.join(',')).join('\n');
+            downloadCSV(content, 'TaraBasa_Payroll.csv');
+        }
+
+        function exportGeographyToExcel() {
+            const municipalityData = {};
+            [...data.tutors, ...data.ydw, ...data.parents, ...data.learners].forEach(person => {
+                const muni = person.municipality || 'Unknown';
+                if (!municipalityData[muni]) {
+                    municipalityData[muni] = { tutors: 0, ydw: 0, parents: 0, learners: 0 };
+                }
+                if (data.tutors.includes(person)) municipalityData[muni].tutors++;
+                else if (data.ydw.includes(person)) municipalityData[muni].ydw++;
+                else if (data.parents.includes(person)) municipalityData[muni].parents++;
+                else if (data.learners.includes(person)) municipalityData[muni].learners++;
+            });
+            
+            const csv = 'Municipality,Tutors,YDW,Parents,Learners,Total\n' +
+                Object.entries(municipalityData).map(([muni, d]) => 
+                    `"${muni}",${d.tutors},${d.ydw},${d.parents},${d.learners},${d.tutors+d.ydw+d.parents+d.learners}`
+                ).join('\n');
+            downloadCSV(csv, 'TaraBasa_Geography.csv');
+        }
+
+        function generateCSV() {
+            return 'TARA BASA TUTORING PROGRAM 2026 - COMPLETE DATA EXPORT\n\n' +
+                'TUTORS\n' + exportTutorsData() + '\n\n' +
+                'YOUTH DEVELOPMENT WORKERS\n' + exportYDWData() + '\n\n' +
+                'PARENTS\n' + exportParentsData() + '\n\n' +
+                'LEARNERS\n' + exportLearnersData() + '\n\n' +
+                'ATTENDANCE\n' + exportAttendanceData();
+        }
+
+        function exportTutorsData() {
+            return 'Name,University,Course,School,Municipality,Contact,Sessions\n' +
+                data.tutors.map(t => `"${t.name}","${t.university}","${t.course}","${t.school}","${t.municipality}","${t.contact}",${t.sessionsAttended}`).join('\n');
+        }
+
+        function exportYDWData() {
+            return 'Name,Background,Specialization,School,Municipality,Contact,Sessions\n' +
+                data.ydw.map(y => `"${y.name}","${y.university}","${y.specialization}","${y.school}","${y.municipality}","${y.contact}",${y.sessionsAttended}`).join('\n');
+        }
+
+        function exportParentsData() {
+            return 'Parent,Learner,School,Municipality,Contact,Sessions,Payout\n' +
+                data.parents.map(p => `"${p.name}","${p.learner}","${p.school}","${p.municipality}","${p.contact}",${p.sessionsAttended},${p.sessionsAttended*462}`).join('\n');
+        }
+
+        function exportLearnersData() {
+            return 'Learner,Parent,School,Municipality,Tutor,Level,Sessions,Rate\n' +
+                data.learners.map(l => {
+                    const rate = l.sessionsAttended > 0 ? ((l.sessionsAttended/20)*100).toFixed(1) : 0;
+                    return `"${l.name}","${l.parent}","${l.school}","${l.municipality}","${l.tutor||'N/A'}","${l.level||'N/A'}",${l.sessionsAttended},${rate}`;
+                }).join('\n');
+        }
+
+        function exportAttendanceData() {
+            return 'Session,Date,Tutors,YDW,Learners,Parents,Rate\n' +
+                data.attendance.map(a => {
+                    const rate = (((a.tutorsPresent+a.ydwPresent+a.learnersPresent+a.parentsPresent)/(641+321+3205+3205))*100).toFixed(1);
+                    return `${a.session},${a.date},${a.tutorsPresent},${a.ydwPresent},${a.learnersPresent},${a.parentsPresent},${rate}`;
+                }).join('\n');
+        }
+
+        function downloadCSV(content, filename) {
+            const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            link.click();
+        }
+
+        // Report Functions
+        function generateReport() {
+            const report = `
+TARA BASA TUTORING PROGRAM 2026
+DSWD Quezon Province
+Executive Summary Report
+
+Program Duration: May 4 - May 29, 2026 (20 Sessions)
+Report Generated: ${new Date().toLocaleString()}
+
+=== ENROLLMENT SUMMARY ===
+Tutors: ${data.tutors.length} / 641 (${((data.tutors.length/641)*100).toFixed(1)}%)
+YDW: ${data.ydw.length} / 321 (${((data.ydw.length/321)*100).toFixed(1)}%)
+Learners: ${data.learners.length} / 3,205 (${((data.learners.length/3205)*100).toFixed(1)}%)
+Parents: ${data.parents.length} / 3,205 (${((data.parents.length/3205)*100).toFixed(1)}%)
+Schools: ${document.getElementById('totalSchools').textContent} / 222
+
+=== SESSION PROGRESS ===
+Sessions Completed: ${data.attendance.length} / 20
+Completion Rate: ${((data.attendance.length/20)*100).toFixed(0)}%
+
+=== PAYROLL SUMMARY ===
+Total Budget Allocated: ₱${((641*600*20)+(321*600*20)+(3205*462*20)).toLocaleString()}
+Actual Payout to Date: ${document.getElementById('totalBudget').textContent}
+Budget Utilization: ${data.attendance.length > 0 ? ((parseInt(document.getElementById('totalBudget').textContent.replace(/[₱,]/g, '')) / ((641*600*20)+(321*600*20)+(3205*462*20)))*100).toFixed(1) : 0}%
+
+This is an automated report from the Tara Basa Dashboard System.
+            `;
+            
+            downloadCSV(report, 'TaraBasa_Summary_Report.txt');
+            alert('Summary report generated!');
+        }
+
+        function generateFullReport() {
+            generateReport();
+        }
+
+        function generateAttendanceReport() {
+            exportAttendanceToExcel();
+        }
+
+        function generatePayrollReport() {
+            exportPayrollToExcel();
+        }
+
+        function generateProgressReport() {
+            const report = `
+TARA BASA TUTORING PROGRAM 2026
+Progress Report
+
+Date: ${new Date().toLocaleString()}
+
+=== OVERALL PROGRESS ===
+Program Completion: ${((data.attendance.length/20)*100).toFixed(0)}%
+Sessions Conducted: ${data.attendance.length} of 20
+
+=== PARTICIPANT PROGRESS ===
+${data.learners.map(l => {
+    const rate = l.sessionsAttended > 0 ? ((l.sessionsAttended/20)*100).toFixed(0) : 0;
+    return `${l.name}: ${l.sessionsAttended}/20 sessions (${rate}%)`;
+}).join('\n')}
+
+End of Report
+            `;
+            downloadCSV(report, 'TaraBasa_Progress_Report.txt');
+            alert('Progress report generated!');
+        }
+
+        // Initialize
+        window.addEventListener('load', async () => {
+            await loadData();
+            updateCharts();
+        });
+    </script>
+</body>
+</html>
